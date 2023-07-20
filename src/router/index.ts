@@ -2,6 +2,14 @@ import { App } from "vue"
 import { createAuthGuard } from "@auth0/auth0-vue"
 import { createRouter, createWebHistory } from "vue-router"
 
+import Home from '@/views/Home'
+import Login from '@/views/Login'
+import Characters from '@/views/Characters'
+import Species from "@/views/Species"
+import CreateSpecies from "@/views/CreateSpecies"
+import EditSpecies from "@/views/EditSpecies"
+import Genders from "@/views/Genders"
+
 export const createAppRouter = (app: App) => {
   return createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -9,36 +17,48 @@ export const createAppRouter = (app: App) => {
       {
         path: '/',
         name: 'home',
-        component: () => import('@/views/Home'),
+        component: Home,
         beforeEnter: createAuthGuard(app)
       },
       {
         path: '/login',
         name: 'login',
-        component: () => import('@/views/Login'),
+        component: () => Login,
       },
       {
         path: '/characters',
         name: 'characters',
-        component: () => import('@/views/Characters'),
+        component: () => Characters,
         beforeEnter: createAuthGuard(app)
       },
       {
         path: '/species',
         name: 'species',
-        component: () => import('@/views/Species'),
+        component: () => Species,
         beforeEnter: createAuthGuard(app)
       },
       {
         path: '/species/new',
         name: 'create-species',
-        component: () => import('@/views/CreateSpecies'),
+        meta: {
+          parent: 'species'
+        },
+        component: () => CreateSpecies,
+        beforeEnter: createAuthGuard(app)
+      },
+      {
+        path: '/species/:id/edit',
+        name: 'edit-species',
+        meta: {
+          parent: 'species'
+        },
+        component: () => EditSpecies,
         beforeEnter: createAuthGuard(app)
       },
       {
         path: '/genders',
         name: 'genders',
-        component: () => import('@/views/Genders'),
+        component: () => Genders,
         beforeEnter: createAuthGuard(app)
       },
     ]
