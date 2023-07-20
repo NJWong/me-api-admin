@@ -23,18 +23,18 @@ export const createAppRouter = (app: App) => {
       {
         path: '/login',
         name: 'login',
-        component: () => Login,
+        component: Login,
       },
       {
         path: '/characters',
         name: 'characters',
-        component: () => Characters,
+        component: Characters,
         beforeEnter: createAuthGuard(app)
       },
       {
         path: '/species',
         name: 'species',
-        component: () => Species,
+        component: Species,
         beforeEnter: createAuthGuard(app)
       },
       {
@@ -43,7 +43,7 @@ export const createAppRouter = (app: App) => {
         meta: {
           parent: 'species'
         },
-        component: () => CreateSpecies,
+        component: CreateSpecies,
         beforeEnter: createAuthGuard(app)
       },
       {
@@ -52,13 +52,13 @@ export const createAppRouter = (app: App) => {
         meta: {
           parent: 'species'
         },
-        component: () => EditSpecies,
+        component: EditSpecies,
         beforeEnter: createAuthGuard(app)
       },
       {
         path: '/genders',
         name: 'genders',
-        component: () => Genders,
+        component: Genders,
         beforeEnter: createAuthGuard(app)
       },
     ]
