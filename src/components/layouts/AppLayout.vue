@@ -112,7 +112,8 @@ import {
 import { useAuth0 } from '@auth0/auth0-vue'
 import { useRoute } from 'vue-router'
 
-const { logout, user } = useAuth0()
+// const { logout, user } = useAuth0()
+const { user } = useAuth0()
 const route = useRoute()
 
 const sidebarOpen = ref(false)
@@ -124,7 +125,7 @@ const navigation = [
   { name: 'Genders', href: '/genders', icon: IdentificationIcon, current: route.name === 'genders' },
 ]
 
-const handleLogout = () => {
-  logout({ logoutParams: { returnTo: window.location.origin } })
-}
+// const handleLogout = () => {
+//   logout({ logoutParams: { returnTo: window.location.origin } })
+// }
 </script>
