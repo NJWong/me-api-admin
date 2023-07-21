@@ -10,6 +10,8 @@ import Species from "@/views/Species"
 import CreateSpecies from "@/views/CreateSpecies"
 import EditSpecies from "@/views/EditSpecies"
 import Genders from "@/views/Genders"
+import CreateGender from "@/views/CreateGender"
+import EditGender from "@/views/EditGender"
 
 export const createAppRouter = (app: App) => {
   return createRouter({
@@ -69,6 +71,24 @@ export const createAppRouter = (app: App) => {
         path: '/genders',
         name: 'genders',
         component: Genders,
+        beforeEnter: createAuthGuard(app)
+      },
+      {
+        path: '/genders/new',
+        name: 'create-gender',
+        meta: {
+          parent: 'genders'
+        },
+        component: CreateGender,
+        beforeEnter: createAuthGuard(app)
+      },
+      {
+        path: '/genders/:id/edit',
+        name: 'edit-gender',
+        meta: {
+          parent: 'genders'
+        },
+        component: EditGender,
         beforeEnter: createAuthGuard(app)
       },
     ]
