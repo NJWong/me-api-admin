@@ -20,15 +20,6 @@ const fetchSpecies = async () => {
   return data
 }
 
-export const useCreateSpecies = () => {
-  return useMutation({
-    mutationFn: (variables: { name: string, token: string, callback: Function }) => createSpecies(variables.name, variables.token),
-    onSuccess: (_, variables) => {
-      variables.callback()
-    }
-  })
-}
-
 export const useSpeciesById = (id: number) => {
   return useQuery({
     queryKey: ['species', id],
@@ -40,6 +31,15 @@ const fetchSpeciesById = async (id: number) => {
   const response = await fetch(`${SPECIES_URL}/${id}`)
   const data = await response.json() as Species
   return data
+}
+
+export const useCreateSpecies = () => {
+  return useMutation({
+    mutationFn: (variables: { name: string, token: string, callback: Function }) => createSpecies(variables.name, variables.token),
+    onSuccess: (_, variables) => {
+      variables.callback()
+    }
+  })
 }
 
 const createSpecies = async (name: string, token: string) => {

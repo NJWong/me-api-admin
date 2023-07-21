@@ -120,9 +120,9 @@ const sidebarOpen = ref(false)
 
 const navigation = [
   { name: 'Dashboard', href: '/', icon: HomeIcon, current: route.name === 'home' },
-  { name: 'Characters', href: '/characters', icon: UserCircleIcon, current: route.name === 'characters' },
+  { name: 'Characters', href: '/characters', icon: UserCircleIcon, current: route.name === 'characters' || route.meta.parent === 'characters' },
   { name: 'Species', href: '/species', icon: FingerPrintIcon, current: route.name === 'species' || route.meta.parent === 'species' },
-  { name: 'Genders', href: '/genders', icon: IdentificationIcon, current: route.name === 'genders' },
+  { name: 'Genders', href: '/genders', icon: IdentificationIcon, current: route.name === 'genders' || route.meta.parent === 'genders' },
 ]
 
 // const handleLogout = () => {

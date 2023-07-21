@@ -5,6 +5,7 @@ import { createRouter, createWebHistory } from "vue-router"
 import Home from '@/views/Home'
 import Login from '@/views/Login'
 import Characters from '@/views/Characters'
+import CreateCharacter from "@/views/CreateCharacter"
 import Species from "@/views/Species"
 import CreateSpecies from "@/views/CreateSpecies"
 import EditSpecies from "@/views/EditSpecies"
@@ -29,6 +30,15 @@ export const createAppRouter = (app: App) => {
         path: '/characters',
         name: 'characters',
         component: Characters,
+        beforeEnter: createAuthGuard(app)
+      },
+      {
+        path: '/characters/new',
+        name: 'create-character',
+        meta: {
+          parent: 'characters'
+        },
+        component: CreateCharacter,
         beforeEnter: createAuthGuard(app)
       },
       {

@@ -1,6 +1,15 @@
 <template>
   <AppLayout>
-    <PageHeader title="Characters" actionText="Add Character" :actionCallback="addCharacter" />
+    <div class="mb-5 border-b border-gray-200 pb-5 sm:flex sm:items-center sm:justify-between">
+      <h3 class="text-base font-semibold leading-6 text-gray-900">Characters</h3>
+      <div class="mt-3 sm:ml-4 sm:mt-0">
+        <RouterLink to="/characters/new">
+          <a class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            Add Character
+          </a>
+        </RouterLink>
+      </div>
+    </div>
 
     <ul role="list" class="divide-y divide-gray-100 bg-white shadow-sm ring-1 ring-gray-900/5 mb-5 sm:rounded-xl">
       <li v-for="character in characters" :key="character.id" class="flex items-center justify-between gap-x-6 px-4 py-5">
@@ -16,7 +25,7 @@
             </div>
             <div class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
               <p class="whitespace-nowrap">
-                {{ getSpecies(character.species) }}
+                {{ character.species.name }}
               </p>
               <svg viewBox="0 0 2 2" class="h-0.5 w-0.5 fill-current">
                 <circle cx="1" cy="1" r="1" />
@@ -26,9 +35,9 @@
           </div>
         </div>
         <div class="flex flex-none items-center gap-x-4">
-          <a :href="character.href" class="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:cursor-pointer sm:block"
-            >View<span class="sr-only">, {{ character.name }}</span></a
-          >
+          <a :href="character.href" class="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:cursor-pointer sm:block">
+            View<span class="sr-only">, {{ character.name }}</span>
+          </a>
           <Menu as="div" class="relative flex-none">
             <MenuButton class="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
               <span class="sr-only">Open options</span>
@@ -42,9 +51,9 @@
                   >
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
-                  <a href="#" :class="[active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900']"
-                    >Delete<span class="sr-only">, {{ character.name }}</span></a
-                  >
+                  <button :class="[active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900']" @click="handleDelete(character.id)">
+                    Delete<span class="sr-only">, {{ character.name }}</span>
+                  </button>
                 </MenuItem>
               </MenuItems>
             </transition>
@@ -56,23 +65,29 @@
 </template>
 
 <script lang="ts" setup>
+import { useQueryClient } from '@tanstack/vue-query'
+import { useAuth0 } from '@auth0/auth0-vue'
+
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { EllipsisVerticalIcon } from '@heroicons/vue/20/solid'
 
 import AppLayout from '@/components/layouts/AppLayout.vue'
-import PageHeader from '@/components/PageHeader'
 
-import { useCharacters } from '@/api/characters.api.ts'
-import { useSpecies } from '@/api/species.api.ts'
+import { useCharacters, useDeleteCharacter } from '@/api/characters.api.ts'
+
+const { getAccessTokenSilently } = useAuth0()
+const queryClient = useQueryClient()
 
 const { data: characters } = useCharacters()
-const { data: species } = useSpecies()
+const { mutate: deleteCharacter } = useDeleteCharacter()
 
-const getSpecies = (id: number) => {
-  return species.value?.find((s) => s.id === id)?.name ?? 'Unknown'
-}
+const handleDelete = async (id: number) => {
+  const token = await getAccessTokenSilently()
 
-const addCharacter = () => {
-  console.warn('TODO implement addCharacter')
+  const callback = () => {
+    queryClient.invalidateQueries(['characters'])
+  }
+
+  deleteCharacter({ id, token, callback })
 }
 </script>

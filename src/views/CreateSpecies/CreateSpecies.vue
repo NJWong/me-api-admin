@@ -10,7 +10,7 @@
           <div class="mt-10">
             <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Species name</label>
             <div class="mt-2">
-              <input v-model="name" type="text" name="name" id="name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="e.g. Human" />
+              <input v-model="speciesName" type="text" name="name" id="name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="e.g. Human" />
             </div>
           </div>
         </div>
@@ -41,7 +41,7 @@ const queryClient = useQueryClient()
 
 const { mutate: createSpecies } = useCreateSpecies()
 
-const name = ref('')
+const speciesName = ref('')
 
 const handleSubmit = async () => {
   try {
@@ -51,7 +51,7 @@ const handleSubmit = async () => {
       queryClient.invalidateQueries({ queryKey: ['species'] })
     }
 
-    createSpecies({ name: name.value, token, callback })
+    createSpecies({ name: speciesName.value, token, callback })
 
     router.push({ name: 'species' })
   } catch (e) {
