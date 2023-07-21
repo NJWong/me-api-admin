@@ -35,7 +35,7 @@
           </div>
         </div>
         <div class="flex flex-none items-center gap-x-4">
-          <a :href="character.href" class="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:cursor-pointer sm:block">
+          <a href="#" class="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:cursor-pointer sm:block">
             View<span class="sr-only">, {{ character.name }}</span>
           </a>
           <Menu as="div" class="relative flex-none">
@@ -46,9 +46,11 @@
             <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
               <MenuItems class="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
                 <MenuItem v-slot="{ active }">
-                  <a href="#" :class="[active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900']"
-                    >Edit<span class="sr-only">, {{ character.name }}</span></a
-                  >
+                  <RouterLink :to="`/characters/${character.id}/edit`">
+                    <a :class="[active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900']">
+                      Edit<span class="sr-only">, {{ character.name }}</span>
+                    </a>
+                  </RouterLink>
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
                   <button :class="[active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900']" @click="handleDelete(character.id)">

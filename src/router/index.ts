@@ -1,17 +1,18 @@
-import { App } from "vue"
-import { createAuthGuard } from "@auth0/auth0-vue"
-import { createRouter, createWebHistory } from "vue-router"
+import { App } from 'vue'
+import { createAuthGuard } from '@auth0/auth0-vue'
+import { createRouter, createWebHistory } from 'vue-router'
 
 import Home from '@/views/Home'
 import Login from '@/views/Login'
 import Characters from '@/views/Characters'
-import CreateCharacter from "@/views/CreateCharacter"
-import Species from "@/views/Species"
-import CreateSpecies from "@/views/CreateSpecies"
-import EditSpecies from "@/views/EditSpecies"
-import Genders from "@/views/Genders"
-import CreateGender from "@/views/CreateGender"
-import EditGender from "@/views/EditGender"
+import CreateCharacter from '@/views/CreateCharacter'
+import EditCharacter from '@/views/EditCharacter'
+import Species from '@/views/Species'
+import CreateSpecies from '@/views/CreateSpecies'
+import EditSpecies from '@/views/EditSpecies'
+import Genders from '@/views/Genders'
+import CreateGender from '@/views/CreateGender'
+import EditGender from '@/views/EditGender'
 
 export const createAppRouter = (app: App) => {
   return createRouter({
@@ -41,6 +42,15 @@ export const createAppRouter = (app: App) => {
           parent: 'characters'
         },
         component: CreateCharacter,
+        beforeEnter: createAuthGuard(app)
+      },
+      {
+        path: '/characters/:id/edit',
+        name: 'edit-character',
+        meta: {
+          parent: 'characters'
+        },
+        component: EditCharacter,
         beforeEnter: createAuthGuard(app)
       },
       {
